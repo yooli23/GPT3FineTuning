@@ -16,10 +16,10 @@ Your dataset should be in JSONL format, with each line containing a JSON object.
 
 Example:
 
-\```json
+```json
 {"prompt": "Translate the following English text to French: 'Hello, how are you?'", "completion": "Bonjour, comment ça va ?"}
 {"prompt": "What is the capital of France?", "completion": "Paris"}
-\```
+```
 
 Save your dataset in two separate files: `train.jsonl` for training and `validation.jsonl` for validation.
 
@@ -27,7 +27,7 @@ Save your dataset in two separate files: `train.jsonl` for training and `validat
 
 To upload your dataset to OpenAI, use the following Python script:
 
-\```python
+```python
 import openai
 
 openai.api_key = "your-api-key"
@@ -37,13 +37,13 @@ with open("train.jsonl") as f:
 
 with open("validation.jsonl") as f:
     validation_dataset = openai.Dataset.create(file=f, purpose="validation")
-\```
+```
 
 ### 3. Fine-tune the GPT-3.5 model
 
 Use the following Python script to fine-tune the GPT-3.5 model:
 
-\```python
+```python
 import openai
 
 openai.api_key = "your-api-key"
@@ -59,13 +59,13 @@ fine_tuning = openai.FineTuning.create(
 )
 
 print("Fine-tuning ID:", fine_tuning.id)
-\```
+```
 
 ### 4. Check the fine-tuning status
 
 To monitor the progress of your fine-tuning process, use the following Python script:
 
-\```python
+```python
 import openai
 
 openai.api_key = "your-api-key"
@@ -75,13 +75,13 @@ fine_tuning_id = "your-fine-tuning-id"
 status = openai.FineTuning.get(fine_tuning_id).status
 
 print("Fine-tuning status:", status)
-\```
+```
 
 ### 5. Test your fine-tuned model
 
 After the fine-tuning process is complete, you can test your model using the following Python script:
 
-\```python
+```python
 import openai
 
 openai.api_key = "your-api-key"
@@ -96,7 +96,7 @@ response = openai.Completion.create(
 )
 
 print(response.choices[0].text)
-\```
+```
 
 Replace `"your-fine-tuned-model"` with the ID of your fine-tuned model.
 
