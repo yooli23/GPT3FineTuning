@@ -21,60 +21,37 @@ Example:
 {"prompt": "What is the capital of France?", "completion": "Paris"}
 ```
 
-Save your dataset in two separate files: `train.jsonl` for training and `validation.jsonl` for validation.
+Save your data as a jsonl file: `train.jsonl` for training, in our case, it is `nce_gpt3_training_data_prepared.jsonl`.
 
-### 2. Upload your dataset
+You can also use the openai library to prepare your CSV, TSV, XLSX, JSON or JSONL file. For example:
 
-To upload your dataset to OpenAI, use the following Python script:
+```bash
+openai tools fine_tunes.prepare -f nce_gpt3_training_data.json -o nce_gpt3_training_data_prepared.jsonl
 
-```python
-import openai
 
-openai.api_key = "your-api-key"
+### 2. Upload your dataset and fine-tune the GPT-3.5 model
 
-with open("train.jsonl") as f:
-    train_dataset = openai.Dataset.create(file=f, purpose="fine-tuning")
+Use the following command to fine-tune the davinci-text-003 model:
 
-with open("validation.jsonl") as f:
-    validation_dataset = openai.Dataset.create(file=f, purpose="validation")
+```bash
+openai api fine_tunes.create -t "nce_gpt3_training_data_prepared.jsonl" -m davinci
 ```
 
-### 3. Fine-tune the GPT-3.5 model
+### 3. Check the fine-tuning status
 
-Use the following Python script to fine-tune the GPT-3.5 model:
+To monitor the progress of your fine-tuning process, use the following commands:
 
-```python
-import openai
+```bash
+# List all created fine-tunes
+openai api fine_tunes.list
 
-openai.api_key = "your-api-key"
+# Retrieve the state of a fine-tune. The resulting object includes
+# job status (which can be one of pending, running, succeeded, or failed)
+# and other information
+openai api fine_tunes.get -i <YOUR_FINE_TUNE_JOB_ID>
 
-fine_tuning = openai.FineTuning.create(
-    model="gpt-3.5",
-    train_dataset_id=train_dataset.id,
-    validation_dataset_id=validation_dataset.id,
-    base_model="text-davinci-002",
-    epochs=3,
-    max_tokens=2048,
-    learning_rate=1e-5,
-)
-
-print("Fine-tuning ID:", fine_tuning.id)
-```
-
-### 4. Check the fine-tuning status
-
-To monitor the progress of your fine-tuning process, use the following Python script:
-
-```python
-import openai
-
-openai.api_key = "your-api-key"
-
-fine_tuning_id = "your-fine-tuning-id"
-
-status = openai.FineTuning.get(fine_tuning_id).status
-
-print("Fine-tuning status:", status)
+# Cancel a job
+openai api fine_tunes.cancel -i <YOUR_FINE_TUNE_JOB_ID>
 ```
 
 ### 5. Test your fine-tuned model
@@ -99,5 +76,7 @@ print(response.choices[0].text)
 ```
 
 Replace `"your-fine-tuned-model"` with the ID of your fine-tuned model.
+
+In our case, you can run `test-gpt3-model.py` to test the fine-tuned model.
 
 That's it! You have successfully fine-tuned the GPT-3.5 model using OpenAI APIs with your specific data. You can now use your fine-tuned model to generate more accurate and relevant complet
