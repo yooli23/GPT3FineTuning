@@ -21,13 +21,17 @@ Example:
 {"prompt": "What is the capital of France?", "completion": "Paris"}
 ```
 
-Save your data as a jsonl file: `train.jsonl` for training, in our case, it is `nce_gpt3_training_data_prepared.jsonl`.
+Save your data as a jsonl file: `train.jsonl` for training, in our case, it is `nce_gpt3_training_data_prepared.jsonl`. We have 500 training examples in this file, the format of each example is:
+
+```json
+{"prompt": "<Persona>\n.Engage in a conversation about <topic> by showcasing your personas. Share interesting anecdotes, facts, and experiences related to <topic>\n\n### Input:\n[Start]\n\n### Response:\n", "completion": "<next bot response>"}
+```
 
 You can also use the openai library to prepare your CSV, TSV, XLSX, JSON or JSONL file. For example:
 
 ```bash
 openai tools fine_tunes.prepare -f nce_gpt3_training_data.json -o nce_gpt3_training_data_prepared.jsonl
-
+```
 
 ### 2. Upload your dataset and fine-tune the GPT-3.5 model
 
