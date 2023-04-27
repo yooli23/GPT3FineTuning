@@ -58,7 +58,7 @@ openai api fine_tunes.get -i <YOUR_FINE_TUNE_JOB_ID>
 openai api fine_tunes.cancel -i <YOUR_FINE_TUNE_JOB_ID>
 ```
 
-### 5. Test your fine-tuned model
+### 4. Test your fine-tuned model
 
 After the fine-tuning process is complete, you can test your model using the following Python script:
 
